@@ -99,3 +99,60 @@
     font-size: var(--font-size-xl);
   }
 }
+
+/* ── Route Summary ── */
+.hero-route-summary {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-light);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  margin-bottom: var(--space-xl);
+  padding: 4px 16px;
+  background: var(--color-primary-glow);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-full);
+}
+
+/* ── Animated Particles (Flight Path Dots) ── */
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 10px var(--color-primary-light);
+  opacity: 0;
+  animation: flyParticle 8s linear infinite;
+}
+
+.hero-particle-1 { top: 20%; left: -10px; animation-delay: 0s; }
+.hero-particle-2 { top: 40%; left: -10px; animation-delay: 2s; }
+.hero-particle-3 { top: 60%; left: -10px; animation-delay: 5s; }
+.hero-particle-4 { top: 80%; left: -10px; animation-delay: 7s; }
+.hero-particle-5 { top: 30%; right: -10px; animation: flyParticleReverse 10s linear infinite; }
+.hero-particle-6 { top: 70%; right: -10px; animation: flyParticleReverse 6s linear infinite 3s; }
+
+@keyframes flyParticle {
+  0% { transform: translateX(0) translateY(0); opacity: 0; }
+  10% { opacity: 0.5; }
+  50% { transform: translateX(50vw) translateY(-20px); opacity: 0.8; }
+  90% { opacity: 0.5; }
+  100% { transform: translateX(100vw) translateY(-40px); opacity: 0; }
+}
+
+@keyframes flyParticleReverse {
+  0% { transform: translateX(0) translateY(0); opacity: 0; }
+  10% { opacity: 0.3; }
+  50% { transform: translateX(-50vw) translateY(10px); opacity: 0.6; }
+  90% { opacity: 0.3; }
+  100% { transform: translateX(-100vw) translateY(20px); opacity: 0; }
+}

@@ -1,0 +1,56 @@
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--color-bg);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base atmosphere */
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1), transparent 50%);
+  pointer-events: none;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.loading-icon {
+  color: var(--color-primary-light);
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+}
+
+.loading-text {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--tracking-widest);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.loading-bar-container {
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--color-primary-light), transparent);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 10px var(--color-primary-light);
+}
