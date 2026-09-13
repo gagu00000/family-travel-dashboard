@@ -266,3 +266,15 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ── Mobile Responsiveness ── */
+@media (max-width: 480px) {
+  .journey-card-meta {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .journey-card-meta > div:nth-child(3) {
+    grid-column: span 2;
+    margin-top: var(--space-sm);
+  }
+}
