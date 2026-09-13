@@ -26,8 +26,8 @@ export const tickets = [
     trainName: "Hate Bazare Exp",
     bookingReference: "6509338625",
     classType: "AC 2 Tier (2A)",
-    file: null,
-    fileType: null,
+    file: "/tickets/palak new ticket.jpeg",
+    fileType: "image",
   },
   {
     id: "ticket-01",
