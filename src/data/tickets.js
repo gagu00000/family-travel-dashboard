@@ -9,6 +9,27 @@
 
 export const tickets = [
   {
+    id: "ticket-00",
+    passenger: "Palakdeep",
+    passengerFull: "Palakdeep Kaur",
+    type: "train",
+    from: "Saharsa",
+    fromCode: "SHC",
+    to: "Sealdah",
+    toCode: "SDAH",
+    date: "2026-09-17",
+    departureTime: "14:15",
+    arrivalDate: "2026-09-18",
+    arrivalTime: "05:15",
+    operator: "Indian Railways",
+    number: "13164",
+    trainName: "Hate Bazare Exp",
+    bookingReference: "6509338625",
+    classType: "AC 2 Tier (2A)",
+    file: null,
+    fileType: null,
+  },
+  {
     id: "ticket-01",
     passenger: "Palakdeep",
     passengerFull: "Palakdeep Kaur",
