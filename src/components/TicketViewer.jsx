@@ -38,6 +38,14 @@ export default function TicketViewer({ ticket, onClose }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: "100%", scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0, bottom: 1 }}
+              onDragEnd={(e, info) => {
+                if (info.offset.y > 100 || info.velocity.y > 500) {
+                  onClose();
+                }
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Mobile Drag Indicator */}

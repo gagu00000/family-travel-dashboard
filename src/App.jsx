@@ -70,7 +70,7 @@ export default function App() {
           )}
 
           {/* Mobile Sticky Ticket Access */}
-          {nextJourney && nextJourney.file && (
+          {!viewingTicket && nextJourney && nextJourney.file && (
             <button 
               className="mobile-sticky-ticket"
               onClick={() => handleViewTicket(nextJourney)}
