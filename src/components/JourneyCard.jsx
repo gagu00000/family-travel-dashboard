@@ -1,46 +1,55 @@
-import { formatDate, formatTime, getCountdown, isUpcoming, daysUntil } from '../utils/dateUtils';
-import { getTypeIcon } from '../utils/ticketUtils';
+import { motion } from 'framer-motion';
+import { Plane, Train, ArrowRight } from 'lucide-react';
+import { formatDate, formatTime } from '../utils/dateUtils';
 import { passengerColors } from '../data/tickets';
 import './JourneyCard.css';
 
-export default function JourneyCard({ ticket, onViewTicket, index = 0 }) {
-  const colors = passengerColors[ticket.passenger] || {};
-  const upcoming = isUpcoming(ticket.date);
+export default function JourneyCard({ ticket, onViewTicket, delay = 0 }) {
   const isFlight = ticket.type === "flight";
-  const days = daysUntil(ticket.date);
+  const ModeIcon = isFlight ? Plane : Train;
+  const colors = passengerColors[ticket.passenger] || {};
+
+  // Parse date into parts: "04", "OCT", "Sunday"
+  const d = new Date(ticket.date);
+  const dayNum = String(d.getDate()).padStart(2, '0');
+  const monthStr = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const dayName = d.toLocaleString('en-US', { weekday: 'long' });
 
   return (
-    <article
-      className={`journey-card ${upcoming ? '' : 'journey-card--past'} journey-card--${ticket.type}`}
-      id={`journey-card-${ticket.id}`}
-      style={{ animationDelay: `${0.4 + index * 0.06}s` }}
+    <motion.div 
+      className={`journey-card journey-card--${ticket.type}`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.2, ease: "easeOut" } }}
     >
-      {/* Top accent */}
       <div className={`journey-card-accent journey-card-accent--${ticket.type}`} />
-
+      
       <div className="journey-card-content">
-        {/* Header row: type badge + date */}
+        
+        {/* Top: Date & Type */}
         <div className="journey-card-top">
-          <span className={`journey-card-type journey-card-type--${ticket.type}`}>
-            {getTypeIcon(ticket.type)} {isFlight ? "FLIGHT" : "TRAIN"}
-          </span>
-          <span className="journey-card-date">
-            {formatDate(ticket.date, true)}
-          </span>
+          <div className="journey-card-date-block">
+            <span className="journey-card-date-num">{dayNum}</span>
+            <div className="journey-card-date-meta">
+              <span className="journey-card-date-month">{monthStr}</span>
+              <span className="journey-card-date-day">{dayName}</span>
+            </div>
+          </div>
+          
+          <div className="journey-card-type-badge">
+            <ModeIcon size={14} />
+            <span>{ticket.type}</span>
+          </div>
         </div>
 
         {/* Passenger */}
         <div className="journey-card-passenger">
-          <span
-            className="journey-card-avatar"
-            style={{ background: colors.bg, color: colors.color }}
-          >
+          <div className="journey-card-avatar" style={{ background: colors.bg, color: colors.color, borderColor: colors.color }}>
             {colors.emoji}
-          </span>
+          </div>
           <span className="journey-card-passenger-name">{ticket.passenger}</span>
-          {upcoming && days <= 7 && (
-            <span className="journey-card-countdown">{getCountdown(ticket.date)}</span>
-          )}
         </div>
 
         {/* Route */}
@@ -49,36 +58,35 @@ export default function JourneyCard({ ticket, onViewTicket, index = 0 }) {
             <span className="journey-card-route-code">{ticket.fromCode}</span>
             <span className="journey-card-route-city">{ticket.from}</span>
           </div>
+          
           <div className="journey-card-route-arrow">
-            <span className="journey-card-route-line" />
-            <span className="journey-card-route-icon">{getTypeIcon(ticket.type)}</span>
-            <span className="journey-card-route-line" />
+            <div className="journey-card-route-line" />
+            <ModeIcon size={16} className="journey-card-route-icon" />
           </div>
+          
           <div className="journey-card-to">
             <span className="journey-card-route-code">{ticket.toCode}</span>
             <span className="journey-card-route-city">{ticket.to}</span>
           </div>
         </div>
 
-        {/* Time & Info */}
+        {/* Meta Grid */}
         <div className="journey-card-meta">
-          <div className="journey-card-time">
-            <span className="journey-card-meta-label">Dep</span>
+          <div>
+            <span className="journey-card-meta-label">Departs</span>
             <span className="journey-card-meta-value">{formatTime(ticket.departureTime)}</span>
           </div>
-          <div className="journey-card-time">
-            <span className="journey-card-meta-label">Arr</span>
+          <div>
+            <span className="journey-card-meta-label">Arrives</span>
             <span className="journey-card-meta-value">{formatTime(ticket.arrivalTime)}</span>
           </div>
-          <div className="journey-card-operator-info">
+          <div>
             <span className="journey-card-meta-label">Operator</span>
-            <span className="journey-card-meta-value">
-              {ticket.operator}
-            </span>
+            <span className="journey-card-meta-value">{ticket.operator}</span>
           </div>
         </div>
 
-        {/* Flight/Train number + Booking ref */}
+        {/* Bottom */}
         <div className="journey-card-bottom">
           <span className="journey-card-number">{ticket.trainName || ticket.number}</span>
           {ticket.bookingReference && (
@@ -88,17 +96,16 @@ export default function JourneyCard({ ticket, onViewTicket, index = 0 }) {
           )}
         </div>
 
-        {/* View Ticket Button */}
-        <button
-          className={`journey-card-btn journey-card-btn--${ticket.type}`}
+        <button 
+          className="journey-card-btn group"
           onClick={() => onViewTicket(ticket)}
           disabled={!ticket.file}
-          id={`view-ticket-${ticket.id}`}
-          title={!ticket.file ? (ticket.fileNote || 'Ticket file not available') : 'View ticket'}
         >
-          {ticket.file ? "VIEW TICKET" : "UNAVAILABLE"}
+          <span>{ticket.file ? "VIEW TICKET" : "UNAVAILABLE"}</span>
+          <ArrowRight size={14} className="journey-card-btn-icon" />
         </button>
+
       </div>
-    </article>
+    </motion.div>
   );
 }

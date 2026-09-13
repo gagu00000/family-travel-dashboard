@@ -1,70 +1,82 @@
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Plane } from 'lucide-react';
 import JourneyCard from './JourneyCard';
-import { sortChronologically } from '../utils/ticketUtils';
-import { formatMonthYear, isUpcoming } from '../utils/dateUtils';
 import './Timeline.css';
 
 export default function Timeline({ tickets, onViewTicket }) {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start center", "end center"]
+  });
+
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   if (!tickets || tickets.length === 0) {
     return (
-      <section className="timeline" id="timeline">
-        <h2 className="timeline-title">Travel Journeys</h2>
-        <div className="timeline-empty">
-          <span className="timeline-empty-icon">🗺️</span>
-          <p className="timeline-empty-text">No journeys found</p>
-          <p className="timeline-empty-hint">Try adjusting your filter or search</p>
-        </div>
+      <section className="timeline-empty">
+        <Plane className="timeline-empty-icon" strokeWidth={1} />
+        <h3 className="timeline-empty-text">Timeline clear</h3>
+        <p className="timeline-empty-hint">No journeys found for this filter.</p>
       </section>
     );
   }
 
-  const sorted = sortChronologically(tickets);
-
   // Group by month
-  const groups = {};
-  for (const ticket of sorted) {
-    const key = formatMonthYear(ticket.date);
-    if (!groups[key]) groups[key] = [];
-    groups[key].push(ticket);
-  }
-
-  // Separate upcoming vs past
-  const hasUpcoming = sorted.some((t) => isUpcoming(t.date));
-  const hasPast = sorted.some((t) => !isUpcoming(t.date));
-
-  let globalIndex = 0;
+  const grouped = tickets.reduce((acc, ticket) => {
+    const month = new Date(ticket.date).toLocaleString('default', { month: 'long', year: 'numeric' });
+    if (!acc[month]) acc[month] = [];
+    acc[month].push(ticket);
+    return acc;
+  }, {});
 
   return (
-    <section className="timeline" id="timeline">
-      <h2 className="timeline-title">Travel Journeys</h2>
-      <p className="timeline-subtitle">
-        {sorted.length} {sorted.length === 1 ? 'journey' : 'journeys'}
-      </p>
+    <section className="timeline" id="timeline" ref={containerRef}>
+      <motion.h2 
+        className="timeline-title"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        Upcoming Journeys
+      </motion.h2>
 
       <div className="timeline-content">
-        {Object.entries(groups).map(([month, monthTickets]) => {
-          const sectionUpcoming = monthTickets.some((t) => isUpcoming(t.date));
-          return (
-            <div className="timeline-month" key={month}>
-              <div className={`timeline-month-header ${sectionUpcoming ? '' : 'timeline-month-header--past'}`}>
-                <span className="timeline-month-dot" />
-                <span className="timeline-month-name">{month}</span>
-              </div>
-              <div className="timeline-cards">
-                {monthTickets.map((ticket) => {
-                  const idx = globalIndex++;
-                  return (
-                    <JourneyCard
-                      key={ticket.id}
-                      ticket={ticket}
-                      onViewTicket={onViewTicket}
-                      index={idx}
-                    />
-                  );
-                })}
-              </div>
+        {/* Animated glowing vertical line */}
+        <div className="timeline-track">
+          <motion.div 
+            className="timeline-track-fill" 
+            style={{ height: lineHeight }}
+          />
+        </div>
+
+        {Object.entries(grouped).map(([month, monthTickets], mIdx) => (
+          <div key={month} className="timeline-month-group">
+            
+            <motion.div 
+              className="timeline-month-header"
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <div className="timeline-month-dot" />
+              <h3 className="timeline-month-name">{month}</h3>
+            </motion.div>
+
+            <div className="timeline-cards">
+              {monthTickets.map((ticket, tIdx) => (
+                <JourneyCard 
+                  key={ticket.id} 
+                  ticket={ticket} 
+                  onViewTicket={onViewTicket} 
+                  delay={(tIdx % 3) * 0.1}
+                />
+              ))}
             </div>
-          );
-        })}
+            
+          </div>
+        ))}
       </div>
     </section>
   );

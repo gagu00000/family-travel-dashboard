@@ -1,152 +1,87 @@
-import { useEffect, useCallback } from 'react';
-import { formatDate, formatTime } from '../utils/dateUtils';
-import { getTypeIcon } from '../utils/ticketUtils';
+import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Plane, Train } from 'lucide-react';
 import { passengerColors } from '../data/tickets';
+import { formatDate } from '../utils/dateUtils';
 import './TicketViewer.css';
 
 export default function TicketViewer({ ticket, onClose }) {
-  // Close on escape key
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Escape') onClose();
-    },
-    [onClose]
-  );
-
+  // Prevent body scroll when modal is open
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden';
+    if (ticket) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'unset';
     };
-  }, [handleKeyDown]);
-
-  if (!ticket) return null;
-
-  const colors = passengerColors[ticket.passenger] || {};
-  const isPdf = ticket.fileType === 'pdf' || (ticket.file && ticket.file.endsWith('.pdf'));
-  const isImage = ticket.file && (ticket.file.endsWith('.jpeg') || ticket.file.endsWith('.jpg') || ticket.file.endsWith('.png'));
+  }, [ticket]);
 
   return (
-    <div className="ticket-viewer-overlay" onClick={onClose} id="ticket-viewer">
-      <div
-        className="ticket-viewer"
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`Ticket for ${ticket.passenger}: ${ticket.from} to ${ticket.to}`}
-      >
-        {/* Header */}
-        <div className="ticket-viewer-header">
-          <div className="ticket-viewer-header-left">
-            <span
-              className="ticket-viewer-avatar"
-              style={{ background: colors.bg, color: colors.color }}
+    <AnimatePresence>
+      {ticket && (
+        <>
+          <motion.div 
+            className="ticket-viewer-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={onClose}
+          />
+          
+          <div className="ticket-viewer-wrapper" pointerEvents="none">
+            <motion.div 
+              className="ticket-viewer"
+              initial={{ opacity: 0, y: "100%", scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: "100%", scale: 0.95 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              {colors.emoji}
-            </span>
-            <div>
-              <div className="ticket-viewer-passenger">{ticket.passenger}</div>
-              <div className="ticket-viewer-route-text">
-                {ticket.from} → {ticket.to}
+              {/* Mobile Drag Indicator */}
+              <div className="ticket-viewer-drag-handle" />
+
+              <div className="ticket-viewer-header">
+                <div className="ticket-viewer-header-info">
+                  <span className="ticket-viewer-passenger">
+                    {ticket.passenger}
+                  </span>
+                  <span className="ticket-viewer-route-text">
+                    {ticket.from} → {ticket.to} · {formatDate(ticket.date)}
+                  </span>
+                </div>
+                <button className="ticket-viewer-close" onClick={onClose} aria-label="Close">
+                  <X size={20} />
+                </button>
               </div>
-            </div>
+
+              <div className="ticket-viewer-content">
+                {ticket.file ? (
+                  ticket.file.endsWith('.pdf') ? (
+                    <iframe 
+                      src={`${ticket.file}#toolbar=0`} 
+                      className="ticket-viewer-iframe" 
+                      title="Ticket PDF"
+                    />
+                  ) : (
+                    <img 
+                      src={ticket.file} 
+                      alt="Ticket" 
+                      className="ticket-viewer-image"
+                    />
+                  )
+                ) : (
+                  <div className="ticket-viewer-unavailable">
+                    <p className="ticket-viewer-unavailable-text">Image missing</p>
+                  </div>
+                )}
+              </div>
+            </motion.div>
           </div>
-          <button
-            className="ticket-viewer-close"
-            onClick={onClose}
-            aria-label="Close ticket viewer"
-            id="ticket-viewer-close"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Ticket info bar */}
-        <div className="ticket-viewer-info">
-          <span className={`ticket-viewer-type ticket-viewer-type--${ticket.type}`}>
-            {getTypeIcon(ticket.type)} {ticket.type === 'flight' ? 'FLIGHT' : 'TRAIN'}
-          </span>
-          <span className="ticket-viewer-detail">
-            {formatDate(ticket.date, true)} · {formatTime(ticket.departureTime)}
-          </span>
-          <span className="ticket-viewer-detail">
-            {ticket.operator} · {ticket.number}
-          </span>
-        </div>
-
-        {/* Ticket preview */}
-        <div className="ticket-viewer-preview">
-          {isPdf && (
-            <iframe
-              src={ticket.file}
-              className="ticket-viewer-iframe"
-              title={`Ticket PDF: ${ticket.passenger} ${ticket.from} to ${ticket.to}`}
-            />
-          )}
-          {isImage && (
-            <img
-              src={ticket.file}
-              alt={`Ticket: ${ticket.passenger} ${ticket.from} to ${ticket.to}`}
-              className="ticket-viewer-image"
-            />
-          )}
-          {!ticket.file && (
-            <div className="ticket-viewer-unavailable">
-              <span className="ticket-viewer-unavailable-icon">📄</span>
-              <p className="ticket-viewer-unavailable-text">Ticket file not available</p>
-              {ticket.fileNote && (
-                <p className="ticket-viewer-unavailable-note">{ticket.fileNote}</p>
-              )}
-              <div className="ticket-viewer-fallback-info">
-                <div className="ticket-viewer-fallback-row">
-                  <span>PNR / Booking Ref</span>
-                  <strong>{ticket.bookingReference}</strong>
-                </div>
-                <div className="ticket-viewer-fallback-row">
-                  <span>Train / Flight</span>
-                  <strong>{ticket.trainName || ticket.number}</strong>
-                </div>
-                <div className="ticket-viewer-fallback-row">
-                  <span>Date</span>
-                  <strong>{formatDate(ticket.date, true)}</strong>
-                </div>
-                <div className="ticket-viewer-fallback-row">
-                  <span>Departure</span>
-                  <strong>{formatTime(ticket.departureTime)}</strong>
-                </div>
-                <div className="ticket-viewer-fallback-row">
-                  <span>Class</span>
-                  <strong>{ticket.classType || '—'}</strong>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Actions */}
-        <div className="ticket-viewer-actions">
-          {ticket.file && (
-            <a
-              href={ticket.file}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ticket-viewer-btn ticket-viewer-btn--primary"
-              id="ticket-viewer-download"
-              download
-            >
-              ↓ DOWNLOAD
-            </a>
-          )}
-          <button
-            className="ticket-viewer-btn ticket-viewer-btn--secondary"
-            onClick={onClose}
-          >
-            CLOSE
-          </button>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

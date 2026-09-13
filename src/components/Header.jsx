@@ -1,32 +1,34 @@
+import { motion } from 'framer-motion';
+import { Plane } from 'lucide-react';
 import './Header.css';
 
-export default function Header() {
+export default function Header({ stats }) {
   return (
-    <header className="header" id="header">
-      {/* Floating decorative elements */}
-      <div className="header-bg-orbs">
-        <div className="header-orb header-orb--1" />
-        <div className="header-orb header-orb--2" />
-        <div className="header-orb header-orb--3" />
-      </div>
-
-      <div className="header-content">
-        <div className="header-icon-wrap">
-          <div className="header-icon">
-            <span className="header-icon-plane">✈</span>
-          </div>
-          <div className="header-icon-ring" />
+    <header className="hero" id="hero">
+      <motion.div
+        className="hero-content"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="hero-icon-wrap">
+          <Plane className="hero-icon" strokeWidth={1.5} />
         </div>
-        <div className="header-text">
-          <h1 className="header-title">
-            <span className="header-title-line">Family</span>
-            <span className="header-title-line header-title-line--accent">Travel</span>
-          </h1>
-          <p className="header-subtitle">
-            All journeys, tickets &amp; travel details in one place
-          </p>
+        
+        <h1 className="hero-title">
+          FAMILY JOURNEYS
+        </h1>
+        
+        <p className="hero-subtitle">
+          Everything for the trip, in one place.
+        </p>
+        
+        <div className="hero-meta">
+          <span className="hero-meta-item">{stats.travelers} travelers</span>
+          <span className="hero-meta-dot">·</span>
+          <span className="hero-meta-item">{stats.total} tickets</span>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 }

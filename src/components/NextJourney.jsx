@@ -1,101 +1,131 @@
-import { formatDate, formatTime, getCountdown, daysUntil } from '../utils/dateUtils';
-import { getTypeIcon } from '../utils/ticketUtils';
+import { motion } from 'framer-motion';
+import { Plane, Train, ArrowRight } from 'lucide-react';
+import { formatDate, formatTime, daysUntil } from '../utils/dateUtils';
 import { passengerColors } from '../data/tickets';
 import './NextJourney.css';
 
 export default function NextJourney({ ticket, onViewTicket }) {
   if (!ticket) {
     return (
-      <section className="next-journey next-journey--empty" id="next-journey">
+      <motion.section 
+        className="next-journey next-journey--empty"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="next-journey-label">NEXT JOURNEY</div>
         <p className="next-journey-empty-text">No upcoming journeys</p>
-      </section>
+      </motion.section>
     );
   }
 
   const colors = passengerColors[ticket.passenger] || {};
-  const countdown = getCountdown(ticket.date);
   const days = daysUntil(ticket.date);
   const isFlight = ticket.type === "flight";
+  const ModeIcon = isFlight ? Plane : Train;
+
+  // Split date for hierarchy (e.g. "04 OCT")
+  const dateParts = formatDate(ticket.date).split(' ');
+  const day = dateParts[0];
+  const month = dateParts[1];
 
   return (
-    <section
+    <motion.section
       className={`next-journey next-journey--${ticket.type}`}
-      id="next-journey"
-      aria-label="Next journey"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="next-journey-header">
-        <div className="next-journey-label">NEXT JOURNEY</div>
-        <span className={`next-journey-countdown ${days <= 3 ? 'next-journey-countdown--soon' : ''}`}>
-          {countdown}
-        </span>
-      </div>
+      {/* Decorative top strip */}
+      <div className="next-journey-strip" />
+      
+      <div className="next-journey-content">
+        <div className="next-journey-header">
+          <div className="next-journey-label">NEXT JOURNEY</div>
+          {days <= 7 && (
+            <div className={`next-journey-status ${days <= 3 ? 'next-journey-status--urgent' : ''}`}>
+              {days === 0 ? 'Today' : days === 1 ? 'Tomorrow' : `In ${days} days`}
+            </div>
+          )}
+        </div>
 
-      <div className="next-journey-passenger">
-        <span
-          className="next-journey-avatar"
-          style={{ background: colors.bg, color: colors.color }}
+        <div className="next-journey-main">
+          {/* Passenger Info */}
+          <div className="next-journey-passenger">
+            <span
+              className="next-journey-avatar"
+              style={{ background: colors.bg, color: colors.color, borderColor: colors.color }}
+            >
+              {colors.emoji}
+            </span>
+            <div className="next-journey-passenger-info">
+              <span className="next-journey-name">{ticket.passenger}</span>
+              <span className="next-journey-operator">{ticket.operator} · {ticket.trainName || ticket.number}</span>
+            </div>
+          </div>
+
+          {/* Route Map */}
+          <div className="next-journey-route">
+            <div className="next-journey-point">
+              <span className="next-journey-code">{ticket.fromCode}</span>
+              <span className="next-journey-city-name">{ticket.from}</span>
+            </div>
+            
+            <div className="next-journey-track">
+              <div className="next-journey-track-line" />
+              <motion.div 
+                className="next-journey-track-icon-wrap"
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ 
+                  duration: isFlight ? 15 : 25, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+              >
+                <ModeIcon className="next-journey-track-icon" size={20} />
+              </motion.div>
+            </div>
+            
+            <div className="next-journey-point next-journey-point--end">
+              <span className="next-journey-code">{ticket.toCode}</span>
+              <span className="next-journey-city-name">{ticket.to}</span>
+            </div>
+          </div>
+
+          {/* Date & Time Grid */}
+          <div className="next-journey-datetime">
+            <div className="next-journey-date">
+              <span className="next-journey-date-day">{day}</span>
+              <span className="next-journey-date-month">{month}</span>
+            </div>
+            <div className="next-journey-time-col">
+              <span className="next-journey-time-label">Departs</span>
+              <span className="next-journey-time-value">{formatTime(ticket.departureTime)}</span>
+            </div>
+            <div className="next-journey-time-col">
+              <span className="next-journey-time-label">Arrives</span>
+              <span className="next-journey-time-value">{formatTime(ticket.arrivalTime)}</span>
+            </div>
+          </div>
+
+          {ticket.bookingReference && (
+            <div className="next-journey-ref">
+              PNR / Ref <span className="next-journey-ref-code">{ticket.bookingReference}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Action Bar */}
+        <button
+          className="next-journey-btn group"
+          onClick={() => onViewTicket(ticket)}
+          disabled={!ticket.file}
         >
-          {colors.emoji}
-        </span>
-        <span className="next-journey-name">{ticket.passenger}</span>
+          <span>{ticket.file ? "VIEW TICKET" : "TICKET UNAVAILABLE"}</span>
+          <ArrowRight className="next-journey-btn-icon" size={16} />
+        </button>
       </div>
-
-      <div className="next-journey-route">
-        <div className="next-journey-city">
-          <span className="next-journey-code">{ticket.fromCode}</span>
-          <span className="next-journey-city-name">{ticket.from}</span>
-        </div>
-        <div className="next-journey-arrow">
-          <div className="next-journey-arrow-line" />
-          <span className="next-journey-arrow-icon">{getTypeIcon(ticket.type)}</span>
-          <div className="next-journey-arrow-line" />
-        </div>
-        <div className="next-journey-city next-journey-city--end">
-          <span className="next-journey-code">{ticket.toCode}</span>
-          <span className="next-journey-city-name">{ticket.to}</span>
-        </div>
-      </div>
-
-      <div className="next-journey-details">
-        <div className="next-journey-detail">
-          <span className="next-journey-detail-label">Date</span>
-          <span className="next-journey-detail-value">{formatDate(ticket.date, true)}</span>
-        </div>
-        <div className="next-journey-detail">
-          <span className="next-journey-detail-label">Departure</span>
-          <span className="next-journey-detail-value">{formatTime(ticket.departureTime)}</span>
-        </div>
-        <div className="next-journey-detail">
-          <span className="next-journey-detail-label">Arrival</span>
-          <span className="next-journey-detail-value">{formatTime(ticket.arrivalTime)}</span>
-        </div>
-      </div>
-
-      <div className="next-journey-info">
-        <span className={`next-journey-type-badge next-journey-type-badge--${ticket.type}`}>
-          {getTypeIcon(ticket.type)} {isFlight ? "FLIGHT" : "TRAIN"}
-        </span>
-        <span className="next-journey-operator">
-          {ticket.operator} · {ticket.number}
-        </span>
-      </div>
-
-      {ticket.bookingReference && (
-        <div className="next-journey-ref">
-          Booking: <strong>{ticket.bookingReference}</strong>
-        </div>
-      )}
-
-      <button
-        className="next-journey-btn"
-        onClick={() => onViewTicket(ticket)}
-        id="next-journey-view-ticket"
-        disabled={!ticket.file}
-        title={!ticket.file ? 'Ticket file not available' : 'View ticket'}
-      >
-        {ticket.file ? "VIEW TICKET" : "TICKET UNAVAILABLE"}
-      </button>
-    </section>
+    </motion.section>
   );
 }

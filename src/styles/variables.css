@@ -1,84 +1,77 @@
 :root {
-  /* ── Color Palette — Rich, warm dark theme ── */
-  --color-bg: #080b16;
-  --color-bg-elevated: #0e1225;
-  --color-surface: rgba(16, 20, 45, 0.65);
-  --color-surface-solid: #10142d;
-  --color-surface-hover: rgba(22, 28, 58, 0.8);
-  --color-surface-active: rgba(30, 36, 70, 0.85);
+  /* ── Core Color Palette ── */
+  /* Base: Deep Navy / Midnight */
+  --color-bg: #030712; /* Very deep navy almost black */
+  --color-bg-subtle: #0f172a; /* Slate 900 */
+  
+  /* Surfaces: Controlled Glass */
+  --color-surface-1: rgba(255, 255, 255, 0.02);
+  --color-surface-2: rgba(255, 255, 255, 0.04);
+  --color-surface-3: rgba(255, 255, 255, 0.08);
+  --color-surface-hover: rgba(255, 255, 255, 0.1);
+  --color-surface-solid: #1e293b; /* Slate 800 */
 
-  --color-text: #eef0ff;
-  --color-text-secondary: #a0a5c8;
-  --color-text-muted: #5c6190;
+  /* Text: High Contrast & Readability */
+  --color-text: #f8fafc; /* Slate 50 */
+  --color-text-secondary: #cbd5e1; /* Slate 300 */
+  --color-text-muted: #64748b; /* Slate 500 */
 
-  /* Vivid primary — electric indigo */
-  --color-primary: #6366f1;
-  --color-primary-light: #818cf8;
-  --color-primary-dark: #4f46e5;
-  --color-primary-glow: rgba(99, 102, 241, 0.18);
-  --color-primary-intense: rgba(99, 102, 241, 0.35);
+  /* Accents */
+  --color-primary: #3b82f6; /* Electric Blue */
+  --color-primary-light: #60a5fa;
+  --color-primary-dark: #2563eb;
+  --color-primary-glow: rgba(59, 130, 246, 0.15);
 
-  /* Accent — warm amber-gold */
-  --color-accent: #f59e0b;
-  --color-accent-light: #fbbf24;
-  --color-accent-glow: rgba(245, 158, 11, 0.15);
+  --color-secondary: #06b6d4; /* Soft Cyan */
+  --color-secondary-light: #22d3ee;
+  
+  --color-highlight: #fde68a; /* Warm Sunlight / Champagne */
+  --color-highlight-glow: rgba(253, 230, 138, 0.15);
 
-  /* Flight — cyan/teal */
-  --color-flight: #22d3ee;
-  --color-flight-light: #67e8f9;
-  --color-flight-bg: rgba(34, 211, 238, 0.06);
-  --color-flight-border: rgba(34, 211, 238, 0.15);
-  --color-flight-glow: rgba(34, 211, 238, 0.12);
+  /* Travel Modes */
+  --color-flight: #38bdf8; /* Sky Blue */
+  --color-flight-bg: rgba(56, 189, 248, 0.1);
+  --color-flight-glow: rgba(56, 189, 248, 0.2);
 
-  /* Train — rose/coral */
-  --color-train: #fb7185;
-  --color-train-light: #fda4af;
-  --color-train-bg: rgba(251, 113, 133, 0.06);
-  --color-train-border: rgba(251, 113, 133, 0.15);
-  --color-train-glow: rgba(251, 113, 133, 0.12);
+  --color-train: #fb923c; /* Warm Orange/Coral */
+  --color-train-bg: rgba(251, 146, 60, 0.1);
+  --color-train-glow: rgba(251, 146, 60, 0.2);
 
-  --color-success: #34d399;
-  --color-border: rgba(255, 255, 255, 0.04);
-  --color-border-light: rgba(255, 255, 255, 0.08);
-  --color-border-glow: rgba(99, 102, 241, 0.15);
-  --color-overlay: rgba(4, 6, 14, 0.85);
-
-  /* Glass */
-  --glass-bg: rgba(16, 20, 45, 0.5);
-  --glass-border: rgba(255, 255, 255, 0.06);
-  --glass-blur: blur(20px);
+  /* Borders & Glass */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-light: rgba(255, 255, 255, 0.12);
+  --color-border-glow: rgba(59, 130, 246, 0.2);
+  
+  --glass-blur-sm: blur(8px);
+  --glass-blur-md: blur(16px);
+  --glass-blur-lg: blur(24px);
 
   /* ── Typography ── */
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-size-2xs: 0.625rem;
-  --font-size-xs: 0.6875rem;
-  --font-size-sm: 0.8125rem;
-  --font-size-base: 0.9375rem;
-  --font-size-md: 1.0625rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.5rem;
-  --font-size-2xl: 2rem;
-  --font-size-3xl: 2.75rem;
-  --font-size-4xl: 3.5rem;
+  
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-md: 1.125rem;    /* 18px */
+  --font-size-lg: 1.25rem;     /* 20px */
+  --font-size-xl: 1.5rem;      /* 24px */
+  --font-size-2xl: 2rem;       /* 32px */
+  --font-size-3xl: 2.5rem;     /* 40px */
+  --font-size-4xl: 3.5rem;     /* 56px */
 
-  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
 
-  --line-height-tight: 1.15;
-  --line-height-normal: 1.5;
-
-  --letter-spacing-tight: -0.03em;
-  --letter-spacing-normal: 0;
-  --letter-spacing-wide: 0.04em;
-  --letter-spacing-wider: 0.08em;
-  --letter-spacing-widest: 0.14em;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.02em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
 
   /* ── Spacing ── */
-  --space-2xs: 0.125rem;
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 0.75rem;
@@ -90,31 +83,22 @@
   --space-4xl: 6rem;
 
   /* ── Radii ── */
-  --radius-xs: 0.375rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-card: 1.25rem;
-  --radius-lg: 1.5rem;
-  --radius-xl: 2rem;
-  --radius-full: 50%;
-  --radius-pill: 100px;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 
   /* ── Shadows ── */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.03);
-  --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.5);
-  --shadow-glow-primary: 0 0 40px rgba(99, 102, 241, 0.15), 0 0 80px rgba(99, 102, 241, 0.05);
-  --shadow-glow-flight: 0 0 30px rgba(34, 211, 238, 0.1);
-  --shadow-glow-train: 0 0 30px rgba(251, 113, 133, 0.1);
-  --shadow-inner-glow: inset 0 1px 0 rgba(255,255,255,0.04);
-
-  /* ── Transitions ── */
-  --transition-fast: 150ms ease;
-  --transition-base: 280ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 450ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-spring: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  
+  --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.15);
+  --shadow-inner: inset 0 1px 0 rgba(255,255,255,0.05);
 
   /* ── Layout ── */
-  --max-width: 960px;
+  --max-width: 1024px;
 }
