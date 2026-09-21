@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Plane, Train, ArrowRight } from 'lucide-react';
+import { Plane, Train, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { formatDate, formatTime, parseDate } from '../utils/dateUtils';
 import { passengerColors } from '../data/tickets';
 import './JourneyCard.css';
@@ -15,20 +15,25 @@ export default function JourneyCard({ ticket, onViewTicket, delay = 0 }) {
   const monthStr = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
   const dayName = d.toLocaleString('en-US', { weekday: 'long' });
 
+  // Check if journey date has passed
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const isPassed = d < today;
+
   return (
     <motion.div 
-      className={`journey-card journey-card--${ticket.type}`}
+      className={`journey-card journey-card--${ticket.type} ${isPassed ? 'journey-card--passed' : ''}`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4, transition: { duration: 0.2, ease: "easeOut" } }}
     >
-      <div className={`journey-card-accent journey-card-accent--${ticket.type}`} />
+      <div className={`journey-card-accent ${isPassed ? 'journey-card-accent--passed' : `journey-card-accent--${ticket.type}`}`} />
       
       <div className="journey-card-content">
         
-        {/* Top: Date & Type */}
+        {/* Top: Date & Badges */}
         <div className="journey-card-top">
           <div className="journey-card-date-block">
             <span className="journey-card-date-num">{dayNum}</span>
@@ -38,9 +43,17 @@ export default function JourneyCard({ ticket, onViewTicket, delay = 0 }) {
             </div>
           </div>
           
-          <div className="journey-card-type-badge">
-            <ModeIcon size={14} />
-            <span>{ticket.type}</span>
+          <div className="journey-card-badges">
+            {isPassed && (
+              <div className="journey-card-status-badge journey-card-status-badge--passed">
+                <CheckCircle2 size={13} />
+                <span>DATE OVER</span>
+              </div>
+            )}
+            <div className="journey-card-type-badge">
+              <ModeIcon size={14} />
+              <span>{ticket.type}</span>
+            </div>
           </div>
         </div>
 

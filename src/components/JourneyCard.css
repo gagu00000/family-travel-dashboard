@@ -29,6 +29,21 @@
   background: linear-gradient(90deg, var(--color-train), var(--color-highlight));
 }
 
+.journey-card-accent--passed {
+  background: linear-gradient(90deg, var(--color-completed), var(--color-completed-light));
+  box-shadow: 0 0 10px var(--color-completed-glow);
+}
+
+.journey-card--passed {
+  border-color: var(--color-completed-border);
+  background: linear-gradient(180deg, var(--color-surface-1), rgba(16, 185, 129, 0.03));
+}
+
+.journey-card--passed:hover {
+  border-color: var(--color-completed-light);
+  box-shadow: var(--shadow-lg), 0 0 25px var(--color-completed-glow);
+}
+
 .journey-card-content {
   padding: var(--space-lg);
   position: relative;
@@ -41,6 +56,33 @@
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: var(--space-md);
+}
+
+.journey-card-badges {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.journey-card-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-2xs);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--tracking-widest);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.journey-card-status-badge--passed {
+  background: var(--color-completed-bg);
+  color: var(--color-completed-light);
+  border: 1px solid var(--color-completed-border);
+  box-shadow: 0 0 12px var(--color-completed-glow);
 }
 
 .journey-card-date-block {
@@ -56,6 +98,10 @@
   color: var(--color-text);
   line-height: 1;
   font-variant-numeric: tabular-nums;
+}
+
+.journey-card--passed .journey-card-date-num {
+  color: var(--color-completed-light);
 }
 
 .journey-card-date-meta {

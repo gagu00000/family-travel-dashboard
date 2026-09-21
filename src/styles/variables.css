@@ -44,6 +44,13 @@
   --color-train-glow: rgba(251, 146, 60, 0.2);
   --color-train-border: rgba(251, 146, 60, 0.3);
 
+  /* Completed / Past Journey Tokens */
+  --color-completed: #10b981;       /* Emerald Green */
+  --color-completed-light: #34d399; /* Light Emerald */
+  --color-completed-bg: rgba(16, 185, 129, 0.15);
+  --color-completed-border: rgba(16, 185, 129, 0.4);
+  --color-completed-glow: rgba(16, 185, 129, 0.3);
+
   /* Borders & Glass Filters */
   --color-border: rgba(255, 255, 255, 0.08);
   --color-border-light: rgba(255, 255, 255, 0.15);

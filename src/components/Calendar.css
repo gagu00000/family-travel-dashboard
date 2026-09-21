@@ -65,7 +65,13 @@
 }
 
 .calendar-date--past {
-  opacity: 0.45;
+  opacity: 0.75;
+  border-color: var(--color-completed-border);
+  background: var(--color-completed-bg);
+}
+
+.calendar-date--past .calendar-date-num {
+  color: var(--color-completed-light);
 }
 
 .calendar-date--today {
