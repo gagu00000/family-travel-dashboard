@@ -1,5 +1,5 @@
 .overview {
-  margin-bottom: var(--space-3xl);
+  margin-bottom: var(--space-xl);
   position: relative;
   z-index: 2;
 }
@@ -11,63 +11,48 @@
 }
 
 .overview-item {
-  background: var(--color-surface-2);
-  backdrop-filter: var(--glass-blur-sm);
-  -webkit-backdrop-filter: var(--glass-blur-sm);
+  background: var(--color-surface-1);
+  backdrop-filter: var(--glass-blur-md);
+  -webkit-backdrop-filter: var(--glass-blur-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
   display: flex;
   align-items: center;
   gap: var(--space-md);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-normal) var(--ease-out-smooth);
+  box-shadow: var(--shadow-sm), var(--shadow-inner);
   position: relative;
   overflow: hidden;
 }
 
-.overview-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.03), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
 .overview-item:hover {
-  transform: translateY(-4px);
-  background: var(--color-surface-3);
+  transform: translateY(-2px);
+  background: var(--color-surface-2);
   border-color: var(--color-border-light);
-  box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.05);
-}
-
-.overview-item:hover::before {
-  opacity: 1;
+  box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
 .overview-icon-wrap {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-lg);
-  background: rgba(255,255,255,0.03);
+  background: var(--color-surface-2);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-primary-light);
   border: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
 .overview-icon {
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform var(--duration-normal) var(--ease-standard);
 }
 
 .overview-item:hover .overview-icon {
-  transform: scale(1.15) rotate(5deg);
-  color: var(--color-primary);
+  transform: scale(1.1);
+  color: var(--color-flight);
 }
 
 .overview-content {
@@ -76,15 +61,16 @@
 }
 
 .overview-value {
-  font-size: var(--font-size-2xl);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-extrabold);
   color: var(--color-text);
   line-height: 1.1;
-  letter-spacing: var(--tracking-tight);
+  font-variant-numeric: tabular-nums;
 }
 
 .overview-label {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-2xs);
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
@@ -92,7 +78,7 @@
   margin-top: 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .overview-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-sm);
@@ -100,5 +86,9 @@
   
   .overview-item {
     padding: var(--space-md);
+  }
+
+  .overview-value {
+    font-size: var(--font-size-lg);
   }
 }

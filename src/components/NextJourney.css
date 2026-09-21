@@ -1,19 +1,19 @@
 .next-journey {
-  background: var(--color-surface-2);
+  background: var(--color-surface-1);
   backdrop-filter: var(--glass-blur-lg);
   -webkit-backdrop-filter: var(--glass-blur-lg);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-2xl);
-  margin-bottom: var(--space-4xl);
+  margin-bottom: var(--space-2xl);
   position: relative;
-  box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.1);
+  box-shadow: var(--shadow-xl), var(--shadow-inner);
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  transition: transform var(--duration-normal) var(--ease-out-smooth), box-shadow var(--duration-normal) ease;
 }
 
 .next-journey:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 30px 60px -10px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), var(--shadow-glow);
 }
 
 .next-journey-strip {
@@ -35,14 +35,20 @@
 }
 
 .next-journey-content {
-  padding: var(--space-2xl);
+  padding: var(--space-xl);
+}
+
+@media (min-width: 640px) {
+  .next-journey-content {
+    padding: var(--space-2xl);
+  }
 }
 
 .next-journey-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-xl);
 }
 
 .next-journey-label {
@@ -67,11 +73,12 @@
 }
 
 .next-journey-status {
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-2xs);
   font-weight: var(--font-weight-bold);
-  color: var(--color-primary-light);
-  background: var(--color-primary-glow);
-  padding: var(--space-xs) var(--space-md);
+  color: var(--color-flight-light);
+  background: var(--color-flight-bg);
+  border: 1px solid var(--color-flight-border);
+  padding: 4px 12px;
   border-radius: var(--radius-full);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
@@ -79,27 +86,28 @@
 
 .next-journey-status--urgent {
   color: var(--color-highlight);
-  background: var(--color-highlight-glow);
+  background: var(--color-highlight-bg);
+  border-color: var(--color-highlight-border);
 }
 
-/* Passenger */
+/* Passenger Header */
 .next-journey-passenger {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  margin-bottom: var(--space-2xl);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
 }
 
 .next-journey-avatar {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: var(--shadow-md);
+  font-size: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: var(--shadow-sm);
 }
 
 .next-journey-passenger-info {
@@ -109,27 +117,27 @@
 }
 
 .next-journey-name {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-extrabold);
   color: var(--color-text);
   letter-spacing: var(--tracking-tight);
 }
 
 .next-journey-operator {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
   font-weight: var(--font-weight-medium);
 }
 
-/* Route */
+/* Route Display */
 .next-journey-route {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  margin-bottom: var(--space-2xl);
-  padding: var(--space-xl) 0;
-  border-top: 1px dashed var(--color-border-light);
-  border-bottom: 1px dashed var(--color-border-light);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg) 0;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
 }
 
 .next-journey-point {
@@ -142,8 +150,9 @@
 
 .next-journey-code {
   display: block;
-  font-size: var(--font-size-4xl);
-  font-weight: var(--font-weight-regular);
+  font-family: var(--font-sans);
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  font-weight: var(--font-weight-bold);
   color: var(--color-text);
   letter-spacing: var(--tracking-tight);
   line-height: 1;
@@ -151,7 +160,7 @@
 
 .next-journey-city-name {
   display: block;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-2xs);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -198,25 +207,27 @@
 .next-journey-datetime {
   display: grid;
   grid-template-columns: auto 1fr 1fr;
-  gap: var(--space-2xl);
-  margin-bottom: var(--space-xl);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
 }
 
 .next-journey-date {
   display: flex;
   align-items: baseline;
   gap: var(--space-xs);
+  font-family: var(--font-mono);
 }
 
 .next-journey-date-day {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-light);
   color: var(--color-highlight);
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .next-journey-date-month {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   color: var(--color-highlight);
   text-transform: uppercase;
@@ -227,7 +238,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .next-journey-time-label {
@@ -239,26 +250,29 @@
 }
 
 .next-journey-time-value {
-  font-size: var(--font-size-lg);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
   font-weight: var(--font-weight-medium);
   color: var(--color-text);
+  font-variant-numeric: tabular-nums;
 }
 
-/* Reference */
+/* Reference Code Pill */
 .next-journey-ref {
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: var(--space-xl);
 }
 
 .next-journey-ref-code {
+  font-family: var(--font-mono);
   color: var(--color-text);
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-xs);
-  background: var(--color-surface-2);
-  padding: 2px 8px;
+  background: var(--color-surface-3);
+  padding: 4px 10px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
@@ -266,47 +280,49 @@
 /* Action Button */
 .next-journey-btn {
   width: 100%;
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
   background: var(--color-text);
   color: var(--color-bg);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--tracking-widest);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--duration-fast) var(--ease-standard);
+  box-shadow: 0 4px 14px rgba(255,255,255,0.1);
 }
 
 .next-journey-btn:hover:not(:disabled) {
-  transform: scale(1.02);
+  transform: translateY(-1px);
   background: #ffffff;
-  box-shadow: 0 10px 30px rgba(255,255,255,0.15);
+  box-shadow: 0 8px 20px rgba(255,255,255,0.25);
 }
 
 .next-journey-btn:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 .next-journey-btn-icon {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--duration-fast) var(--ease-standard);
 }
 
 .next-journey-btn:hover:not(:disabled) .next-journey-btn-icon {
-  transform: translateX(6px);
+  transform: translateX(4px);
 }
 
 .next-journey-btn:disabled {
   background: var(--color-surface-3);
   color: var(--color-text-muted);
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* Empty State */
 .next-journey--empty {
-  padding: var(--space-3xl) var(--space-2xl);
+  padding: var(--space-2xl) var(--space-xl);
   text-align: center;
   border-style: dashed;
 }
@@ -319,25 +335,17 @@
 }
 
 @media (max-width: 640px) {
-  .next-journey-content {
-    padding: var(--space-xl);
-  }
-
   .next-journey-route {
-    gap: var(--space-sm);
-    padding: var(--space-lg) 0;
-  }
-
-  .next-journey-code {
-    font-size: var(--font-size-2xl);
+    gap: var(--space-xs);
+    padding: var(--space-md) 0;
   }
 
   .next-journey-datetime {
     grid-template-columns: 1fr;
-    gap: var(--space-md);
+    gap: var(--space-sm);
   }
 
   .next-journey-date {
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
   }
 }

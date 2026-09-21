@@ -49,6 +49,11 @@ export default function App() {
     setViewingTicket(null);
   };
 
+  const handleResetFilters = () => {
+    setSelectedPassenger("All");
+    setSearchQuery("");
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -60,10 +65,14 @@ export default function App() {
           <Header stats={stats} tickets={filteredTickets} />
           <Overview stats={stats} />
           <NextJourney ticket={nextJourney} onViewTicket={handleViewTicket} />
+          
+          <div className="controls-toolbar" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', margin: 'var(--space-xl) 0 var(--space-lg)' }}>
+            <TravelerFilter selected={selectedPassenger} onSelect={setSelectedPassenger} />
+            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+          </div>
+
           <Calendar tickets={filteredTickets} onViewTicket={handleViewTicket} />
-          <TravelerFilter selected={selectedPassenger} onSelect={setSelectedPassenger} />
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
-          <Timeline tickets={filteredTickets} onViewTicket={handleViewTicket} />
+          <Timeline tickets={filteredTickets} onViewTicket={handleViewTicket} onResetFilters={handleResetFilters} />
 
           <TicketViewer ticket={viewingTicket} onClose={handleCloseViewer} />
 

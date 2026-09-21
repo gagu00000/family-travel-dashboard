@@ -5,7 +5,7 @@ import { parseDate } from '../utils/dateUtils';
 import JourneyCard from './JourneyCard';
 import './Timeline.css';
 
-export default function Timeline({ tickets, onViewTicket }) {
+export default function Timeline({ tickets, onViewTicket, onResetFilters }) {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -18,8 +18,13 @@ export default function Timeline({ tickets, onViewTicket }) {
     return (
       <section className="timeline-empty">
         <Plane className="timeline-empty-icon" strokeWidth={1} />
-        <h3 className="timeline-empty-text">Timeline clear</h3>
-        <p className="timeline-empty-hint">No journeys found for this filter.</p>
+        <h3 className="timeline-empty-text">No journeys found</h3>
+        <p className="timeline-empty-hint">Try adjusting your traveler filter or search query.</p>
+        {onResetFilters && (
+          <button className="timeline-empty-reset" onClick={onResetFilters}>
+            Reset Filters
+          </button>
+        )}
       </section>
     );
   }

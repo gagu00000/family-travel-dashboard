@@ -8,12 +8,11 @@
   justify-content: center;
 }
 
-/* Base atmosphere */
 .loading-screen::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1), transparent 50%);
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.12), transparent 60%);
   pointer-events: none;
 }
 
@@ -21,36 +20,36 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   position: relative;
   z-index: 1;
 }
 
 .loading-icon {
-  color: var(--color-primary-light);
-  animation: float 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+  color: var(--color-flight);
+  filter: drop-shadow(0 0 12px var(--color-flight));
 }
 
 .loading-text {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-widest);
   color: var(--color-text-secondary);
   text-transform: uppercase;
 }
 
 .loading-bar-container {
-  width: 200px;
+  width: 180px;
   height: 2px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-full);
   overflow: hidden;
+  margin-top: var(--space-xs);
 }
 
 .loading-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, transparent, var(--color-primary-light), transparent);
+  background: linear-gradient(90deg, var(--color-flight), var(--color-primary-light));
   border-radius: var(--radius-full);
-  box-shadow: 0 0 10px var(--color-primary-light);
+  box-shadow: 0 0 10px var(--color-flight);
 }

@@ -1,21 +1,19 @@
 .traveler-filter-container {
-  margin-bottom: var(--space-3xl);
+  margin-bottom: var(--space-md);
   display: flex;
-  justify-content: center; /* Center on desktop */
+  justify-content: center;
 }
 
 .traveler-filter {
   display: inline-flex;
   background: var(--color-surface-1);
-  backdrop-filter: var(--glass-blur-lg);
-  -webkit-backdrop-filter: var(--glass-blur-lg);
+  backdrop-filter: var(--glass-blur-md);
+  -webkit-backdrop-filter: var(--glass-blur-md);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   padding: 4px;
   position: relative;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-  
-  /* Scroll on mobile if needed */
+  box-shadow: var(--shadow-inner);
   max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -28,15 +26,15 @@
 
 .traveler-chip {
   position: relative;
-  padding: var(--space-sm) var(--space-xl);
+  padding: var(--space-sm) var(--space-lg);
   border-radius: var(--radius-full);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-wide);
   color: var(--color-text-muted);
   white-space: nowrap;
   flex-shrink: 0;
-  transition: color 0.3s ease;
+  transition: color var(--duration-fast) var(--ease-standard);
   z-index: 1;
 }
 
@@ -44,20 +42,25 @@
   color: var(--color-text-secondary);
 }
 
+.traveler-chip:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
 .traveler-chip--active {
   color: var(--color-text);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-extrabold);
 }
 
 /* Framer motion layoutId highlight */
 .traveler-chip-highlight {
   position: absolute;
   inset: 0;
-  background: var(--color-surface-solid);
+  background: var(--color-surface-3);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-full);
   z-index: -1;
-  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: var(--shadow-sm), var(--shadow-inner);
 }
 
 .traveler-chip-text {
@@ -67,6 +70,6 @@
 
 @media (max-width: 640px) {
   .traveler-filter-container {
-    justify-content: flex-start; /* Left align on mobile for scrolling */
+    justify-content: flex-start;
   }
 }
