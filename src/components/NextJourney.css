@@ -304,6 +304,20 @@
   cursor: not-allowed;
 }
 
+/* Empty State */
+.next-journey--empty {
+  padding: var(--space-3xl) var(--space-2xl);
+  text-align: center;
+  border-style: dashed;
+}
+
+.next-journey-empty-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+  margin-top: var(--space-md);
+}
+
 @media (max-width: 640px) {
   .next-journey-content {
     padding: var(--space-xl);

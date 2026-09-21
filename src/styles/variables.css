@@ -30,12 +30,16 @@
 
   /* Travel Modes */
   --color-flight: #38bdf8; /* Sky Blue */
+  --color-flight-light: #7dd3fc;
   --color-flight-bg: rgba(56, 189, 248, 0.1);
   --color-flight-glow: rgba(56, 189, 248, 0.2);
+  --color-flight-border: rgba(56, 189, 248, 0.25);
 
   --color-train: #fb923c; /* Warm Orange/Coral */
+  --color-train-light: #fdba74;
   --color-train-bg: rgba(251, 146, 60, 0.1);
   --color-train-glow: rgba(251, 146, 60, 0.2);
+  --color-train-border: rgba(251, 146, 60, 0.25);
 
   /* Borders & Glass */
   --color-border: rgba(255, 255, 255, 0.06);
@@ -49,6 +53,7 @@
   /* ── Typography ── */
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
+  --font-size-2xs: 0.625rem;    /* 10px */
   --font-size-xs: 0.75rem;     /* 12px */
   --font-size-sm: 0.875rem;    /* 14px */
   --font-size-base: 1rem;      /* 16px */
@@ -59,6 +64,7 @@
   --font-size-3xl: 2.5rem;     /* 40px */
   --font-size-4xl: 3.5rem;     /* 56px */
 
+  --font-weight-light: 300;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;

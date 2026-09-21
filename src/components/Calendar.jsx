@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
+import { Plane, Train } from 'lucide-react';
 import { parseDate, formatDate, getDayShort } from '../utils/dateUtils';
-import { getTypeIcon } from '../utils/ticketUtils';
 import { passengerColors } from '../data/tickets';
 import './Calendar.css';
 
@@ -47,7 +47,7 @@ export default function Calendar({ tickets, onViewTicket }) {
                 </div>
                 <div className="calendar-date-tickets">
                   {dateTickets.map((ticket) => {
-                    const colors = passengerColors[ticket.passenger] || {};
+                    const ModeIcon = ticket.type === 'flight' ? Plane : Train;
                     return (
                       <button
                         className={`calendar-ticket calendar-ticket--${ticket.type}`}
@@ -55,13 +55,7 @@ export default function Calendar({ tickets, onViewTicket }) {
                         onClick={() => onViewTicket(ticket)}
                         title={`${ticket.passenger}: ${ticket.from} → ${ticket.to}`}
                       >
-                        <span className="calendar-ticket-icon">
-                          {getTypeIcon(ticket.type)}
-                        </span>
-                        <span
-                          className="calendar-ticket-dot"
-                          style={{ background: colors.color }}
-                        />
+                        <ModeIcon size={12} />
                       </button>
                     );
                   })}
@@ -74,3 +68,4 @@ export default function Calendar({ tickets, onViewTicket }) {
     </section>
   );
 }
+

@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Plane } from 'lucide-react';
+import { parseDate } from '../utils/dateUtils';
 import JourneyCard from './JourneyCard';
 import './Timeline.css';
 
@@ -23,9 +24,10 @@ export default function Timeline({ tickets, onViewTicket }) {
     );
   }
 
-  // Group by month
+  // Group by month — use parseDate to avoid timezone bugs
   const grouped = tickets.reduce((acc, ticket) => {
-    const month = new Date(ticket.date).toLocaleString('default', { month: 'long', year: 'numeric' });
+    const d = parseDate(ticket.date);
+    const month = d.toLocaleString('default', { month: 'long', year: 'numeric' });
     if (!acc[month]) acc[month] = [];
     acc[month].push(ticket);
     return acc;

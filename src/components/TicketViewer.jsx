@@ -18,6 +18,16 @@ export default function TicketViewer({ ticket, onClose }) {
     };
   }, [ticket]);
 
+  // Close on Escape key
+  useEffect(() => {
+    if (!ticket) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [ticket, onClose]);
+
   return (
     <AnimatePresence>
       {ticket && (

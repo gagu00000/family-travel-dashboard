@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Plane, Train, ArrowRight } from 'lucide-react';
-import { formatDate, formatTime } from '../utils/dateUtils';
+import { formatDate, formatTime, parseDate } from '../utils/dateUtils';
 import { passengerColors } from '../data/tickets';
 import './JourneyCard.css';
 
@@ -10,7 +10,7 @@ export default function JourneyCard({ ticket, onViewTicket, delay = 0 }) {
   const colors = passengerColors[ticket.passenger] || {};
 
   // Parse date into parts: "04", "OCT", "Sunday"
-  const d = new Date(ticket.date);
+  const d = parseDate(ticket.date);
   const dayNum = String(d.getDate()).padStart(2, '0');
   const monthStr = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
   const dayName = d.toLocaleString('en-US', { weekday: 'long' });

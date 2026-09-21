@@ -62,12 +62,10 @@ export default function App() {
           <NextJourney ticket={nextJourney} onViewTicket={handleViewTicket} />
           <Calendar tickets={filteredTickets} onViewTicket={handleViewTicket} />
           <TravelerFilter selected={selectedPassenger} onSelect={setSelectedPassenger} />
-          <SearchBar query={searchQuery} onChange={setSearchQuery} />
+          <SearchBar value={searchQuery} onChange={setSearchQuery} />
           <Timeline tickets={filteredTickets} onViewTicket={handleViewTicket} />
 
-          {viewingTicket && (
-            <TicketViewer ticket={viewingTicket} onClose={handleCloseViewer} />
-          )}
+          <TicketViewer ticket={viewingTicket} onClose={handleCloseViewer} />
 
           {/* Mobile Sticky Ticket Access */}
           {!viewingTicket && nextJourney && nextJourney.file && (
